@@ -1,0 +1,6 @@
+# Set default behavior
+* text=crlf
+
+# Denote binary files
+*.CHR binary
+*.BGI binary

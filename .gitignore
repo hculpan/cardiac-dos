@@ -1,3 +1,7 @@
+# Misc files
+*.bak
+*.dsk
+
 # Prerequisites
 *.d
 

@@ -126,7 +126,6 @@ void outputFunc(int value) {
   outputValue = value;
 }
 
-
 bool instructionTests(bool err) {
   bool isError = err;
 

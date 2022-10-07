@@ -2,8 +2,6 @@
 
 #include <math.h>
 
-#define MEM_SIZE 100
-
 int memory[MEM_SIZE];
 int accumulator = 0, PC = 0;
 
@@ -73,13 +71,17 @@ void incrementProgramCounter() {
 }
 
 int getCurrentOp() {
-  return getMemory(PC++);
+  return getMemory(PC);
 }
 
 bool evaluateOp(int op,input_func ifunc, output_func ofunc) {
   int opcode = op / 100;
   int arg = op % 100;
   int value;
+
+  if (op == 0) {
+    return false;
+  }
 
   switch (opcode) {
     case 0: // INP
@@ -132,5 +134,10 @@ bool evaluateOp(int op,input_func ifunc, output_func ofunc) {
 }
 
 bool nextOp(input_func ifunc, output_func ofunc) {
-  return evaluateOp(getCurrentOp(), ifunc, ofunc);
+  bool result = evaluateOp(getCurrentOp(), ifunc, ofunc);
+  if (result == true) {
+    PC++;
+  }
+
+  return result;
 }

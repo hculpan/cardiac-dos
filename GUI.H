@@ -8,6 +8,10 @@ void closeGui();
 
 bool drawGui();
 
+int guiInputFunc();
+
+void guiOutputFunc(int value);
+
 extern int screenWidth, screenHeight, numColors;
 
 #endif

@@ -3,8 +3,20 @@
 
 #include "util.h"
 
+#define MEM_SIZE 100
+
+enum memstatustype {
+     none,
+     reading,
+     writing
+};
+
+typedef enum memstatustype memstatus;
+
 typedef int (*input_func)();
 typedef void (*output_func)(int);
+
+void initCardiac();
 
 bool evaluateOp(int op, input_func ifunc, output_func ofunc);
 bool nextOp(input_func ifunc, output_func ofunc);

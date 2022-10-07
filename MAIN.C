@@ -11,11 +11,16 @@ int main() {
   initCardiac();
 
 #ifndef_RUN_TESTS_
-
   if (initGui() != true) {
      printf("Unable to initialize GUI\n");
      return 1;
   };
+
+  drawGui();
+
+  while (nextOp(guiInputFunc, guiOutputFunc) == true) {
+    drawGui();
+  }
 
   drawGui();
 

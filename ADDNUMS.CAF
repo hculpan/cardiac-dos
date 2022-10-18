@@ -1,0 +1,15 @@
+                ORG     10
+
+a       90      DATA    75
+b       91      DATA    125
+Result  92      DATA    0
+
+                INP     a
+                INP     b
+                CLA     a
+                ADD     b
+                STO     Result
+                OUT     Result
+                HRS     00
+
+

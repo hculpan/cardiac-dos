@@ -1,6 +1,7 @@
 # Misc files
 *.bak
 *.dsk
+.DS_Store
 
 # Prerequisites
 *.d

@@ -5,23 +5,26 @@
 
 #define MEM_SIZE 100
 
-enum memstatustype {
-     none,
-     reading,
-     writing
-};
-
-typedef enum memstatustype memstatus;
-
-typedef int (*input_func)();
-typedef void (*output_func)(int);
+typedef int (*input_func)(int); // address
+typedef void (*output_func)(int, int); // value, address
+typedef void (*accum_updated)(int); // value
+typedef void (*pc_updated)(int); //value
+typedef void (*memory_updated)(int, int); // value, address
 
 void initCardiac();
 
-bool evaluateOp(int op, input_func ifunc, output_func ofunc);
-bool nextOp(input_func ifunc, output_func ofunc);
+bool evaluateOp(int op);
+bool nextOp();
 
-int getMemory(int addr);
+void setEvents(
+     input_func,
+     output_func,
+     accum_updated,
+     pc_updated,
+     memory_updated);
+
+int getMemory(int addr);  // doesn't trigger event
+int readMemory(int addr); // does trigger event
 void setMemory(int addr, int value);
 
 int clearAccumulator();

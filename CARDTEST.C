@@ -118,11 +118,11 @@ bool memoryUnitTests(bool err) {
   return isError;
 }
 
-int inputFunc() {
+int testInputFunc() {
   return 10;
 }
 
-void outputFunc(int value) {
+void testOutputFunc(int value) {
   outputValue = value;
 }
 
@@ -131,101 +131,102 @@ bool instructionTests(bool err) {
 
   initCardiac();
 
-  evaluateOp(10, &inputFunc, &outputFunc);
+  evaluateOp(10);
   if (getMemory(10) != 10) {
     printf("** Instruction INP: Expected 10, got %d\n", getMemory(10));
     isError = true;
   }
 
-  evaluateOp(110, &inputFunc, &outputFunc);
+  evaluateOp(110);
   if (getAccumulator() != 10) {
     printf("** Instruction CLA: Expected 10, got %d\n", getAccumulator());
     isError = true;
   }
 
-  evaluateOp(210, &inputFunc, &outputFunc);
+  evaluateOp(210);
   if (getAccumulator() != 20) {
     printf("** Instruction ADD: Expected 20, got %d\n", getAccumulator());
     isError = true;
   }
 
-  evaluateOp(399, &inputFunc, &outputFunc);
-  if (getProgramCounter() != 0) {
-    printf("** Instruction TAC no jump: Expected 0, got %d\n", getProgramCounter());
+  setProgramCounter(0);
+  evaluateOp(399);
+  if (getProgramCounter() != 1) {
+    printf("** Instruction TAC no jump: Expected 1, got %d\n", getProgramCounter());
     isError = true;
   }
 
   setAccumulator(-10);
-  evaluateOp(399, &inputFunc, &outputFunc);
+  evaluateOp(399);
   if (getProgramCounter() != 99) {
     printf("** Instruction TAC jump: Expected 99, got %d\n", getProgramCounter());
     isError = true;
   }
 
   setAccumulator(10);
-  evaluateOp(410, &inputFunc, &outputFunc);
+  evaluateOp(410);
   if (getAccumulator() != 100) {
     printf("** Instruction SFT left 1, right 0: Expected 100, got %d\n", getAccumulator());
     isError = true;
   }
 
   setAccumulator(10);
-  evaluateOp(422, &inputFunc, &outputFunc);
+  evaluateOp(422);
   if (getAccumulator() != 10) {
     printf("** Instruction SFT left 2, right 2: Expected 10, got %d\n", getAccumulator());
     isError = true;
   }
 
   setAccumulator(10);
-  evaluateOp(401, &inputFunc, &outputFunc);
+  evaluateOp(401);
   if (getAccumulator() != 1) {
     printf("** Instruction SFT left 0, right 1: Expected 1, got %d\n", getAccumulator());
     isError = true;
   }
 
   setAccumulator(10);
-  evaluateOp(480, &inputFunc, &outputFunc);
+  evaluateOp(480);
   if (getAccumulator() != 0) {
     printf("** Instruction SFT left 8, right 0: Expected 0, got %d\n", getAccumulator());
     isError = true;
   }
 
   setAccumulator(10);
-  evaluateOp(408, &inputFunc, &outputFunc);
+  evaluateOp(408);
   if (getAccumulator() != 0) {
     printf("** Instruction SFT left 0, right 8: Expected 0, got %d\n", getAccumulator());
     isError = true;
   }
 
-  evaluateOp(510, &inputFunc, &outputFunc);
+  evaluateOp(510);
   if (outputValue != 10) {
     printf("** Instruction OUT: Expected 10, got %d\n", outputValue);
     isError = true;
   }
 
   setAccumulator(-10);
-  evaluateOp(611, &inputFunc, &outputFunc);
+  evaluateOp(611);
   if (getMemory(11) != -10) {
     printf("** Instruction STO: Expected -10, got %d\n", getMemory(11));
     isError = true;
   }
 
   setAccumulator(1010);
-  evaluateOp(611, &inputFunc, &outputFunc);
+  evaluateOp(611);
   if (getMemory(11) != 10) {
     printf("** Instruction STO oversized: Expected 10, got %d\n", getMemory(11));
     isError = true;
   }
 
   setAccumulator(0);
-  evaluateOp(711, &inputFunc, &outputFunc);
+  evaluateOp(711);
   if (getAccumulator() != -10) {
     printf("** Instruction SUB: Expected -10, got %d\n", getAccumulator());
     isError = true;
   }
 
   setProgramCounter(50);
-  evaluateOp(870, &inputFunc, &outputFunc);
+  evaluateOp(870);
   if (getProgramCounter() != 70) {
     printf("** Instruction JMP: Expected 70, got %d\n", getProgramCounter());
     isError = true;
@@ -236,7 +237,7 @@ bool instructionTests(bool err) {
   }
 
   setProgramCounter(50);
-  evaluateOp(970, &inputFunc, &outputFunc);
+  evaluateOp(970);
   if (getProgramCounter() != 70) {
     printf("** Instruction HRS: Expected 70, got %d\n", getProgramCounter());
     isError = true;
@@ -254,6 +255,7 @@ void cardiacUnitTests() {
 
   printf("Executing unit tests...\n\n");
 
+  setEvents(testInputFunc, testOutputFunc, NULL, NULL, NULL);
 
   isError = memoryUnitTests(isError);
   isError = accumulatorUnitTests(isError);
